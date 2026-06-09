@@ -250,29 +250,31 @@ var AnimatePresence = ({ children, custom, initial = true, onExitComplete, prese
     console.warn(`You're attempting to animate multiple children within AnimatePresence, but its mode is set to "wait". This will lead to odd visual behaviour.`);
   }
   const { forceRender } = (0, import_react10.useContext)(LayoutGroupContext);
-  return (0, import_jsx_runtime3.jsx)(import_jsx_runtime3.Fragment, { children: renderedChildren.map((child) => {
-    const key = getChildKey(child);
-    const isPresent2 = propagate && !isParentPresent ? false : presentChildren === renderedChildren || presentKeys.includes(key);
-    const onExit = () => {
-      if (exitComplete.has(key)) {
-        exitComplete.set(key, true);
-      } else {
-        return;
-      }
-      let isEveryExitComplete = true;
-      exitComplete.forEach((isExitComplete) => {
-        if (!isExitComplete)
-          isEveryExitComplete = false;
-      });
-      if (isEveryExitComplete) {
-        forceRender === null || forceRender === void 0 ? void 0 : forceRender();
-        setRenderedChildren(pendingPresentChildren.current);
-        propagate && (safeToRemove === null || safeToRemove === void 0 ? void 0 : safeToRemove());
-        onExitComplete && onExitComplete();
-      }
-    };
-    return (0, import_jsx_runtime3.jsx)(PresenceChild, { isPresent: isPresent2, initial: !isInitialRender.current || initial ? void 0 : false, custom: isPresent2 ? void 0 : custom, presenceAffectsLayout, mode, onExitComplete: isPresent2 ? void 0 : onExit, children: child }, key);
-  }) });
+  return (0, import_jsx_runtime3.jsx)(import_jsx_runtime3.Fragment, {
+    children: renderedChildren.map((child) => {
+      const key = getChildKey(child);
+      const isPresent2 = propagate && !isParentPresent ? false : presentChildren === renderedChildren || presentKeys.includes(key);
+      const onExit = () => {
+        if (exitComplete.has(key)) {
+          exitComplete.set(key, true);
+        } else {
+          return;
+        }
+        let isEveryExitComplete = true;
+        exitComplete.forEach((isExitComplete) => {
+          if (!isExitComplete)
+            isEveryExitComplete = false;
+        });
+        if (isEveryExitComplete) {
+          forceRender === null || forceRender === void 0 ? void 0 : forceRender();
+          setRenderedChildren(pendingPresentChildren.current);
+          propagate && (safeToRemove === null || safeToRemove === void 0 ? void 0 : safeToRemove());
+          onExitComplete && onExitComplete();
+        }
+      };
+      return (0, import_jsx_runtime3.jsx)(PresenceChild, { isPresent: isPresent2, initial: !isInitialRender.current || initial ? void 0 : false, custom: isPresent2 ? void 0 : custom, presenceAffectsLayout, mode, onExitComplete: isPresent2 ? void 0 : onExit, children: child }, key);
+    })
+  });
 };
 
 // node_modules/framer-motion/dist/es/components/LayoutGroup/index.mjs
@@ -666,7 +668,7 @@ function filterProps(props, isDom, forwardMotionProps) {
     if (key === "values" && typeof props.values === "object")
       continue;
     if (shouldForward(key) || forwardMotionProps === true && isValidMotionProp(key) || !isDom && !isValidMotionProp(key) || // If trying to use native HTML drag events, forward drag listeners
-    props["draggable"] && key.startsWith("onDrag")) {
+      props["draggable"] && key.startsWith("onDrag")) {
       filteredProps[key] = props[key];
     }
   }
@@ -3236,8 +3238,8 @@ var isAnimatable = (value, name) => {
   if (typeof value === "number" || Array.isArray(value))
     return true;
   if (typeof value === "string" && // It's animatable if we have a string
-  (complex.test(value) || value === "0") && // And it contains numbers and/or colors
-  !value.startsWith("url(")) {
+    (complex.test(value) || value === "0") && // And it contains numbers and/or colors
+    !value.startsWith("url(")) {
     return true;
   }
   return false;
@@ -4491,7 +4493,7 @@ var AcceleratedAnimation = class extends BaseAnimation {
      * If we're outputting values to onUpdate then we can't use WAAPI as there's
      * no way to read the value from WAAPI every frame.
      */
-    !onUpdate && !transformTemplate && !repeatDelay && repeatType !== "mirror" && damping !== 0 && type !== "inertia";
+      !onUpdate && !transformTemplate && !repeatDelay && repeatType !== "mirror" && damping !== 0 && type !== "inertia";
   }
 };
 
@@ -4781,8 +4783,8 @@ function createAnimationState(visualElement) {
       }
       const variantDidChange = checkVariantsDidChange(typeState.prevProp, prop);
       let shouldAnimateType = variantDidChange || // If we're making this variant active, we want to always make it active
-      type === changedActiveType && typeState.isActive && !isInherited && propIsVariant || // If we removed a higher-priority variant (i is in reverse order)
-      i > removedVariantIndex && propIsVariant;
+        type === changedActiveType && typeState.isActive && !isInherited && propIsVariant || // If we removed a higher-priority variant (i is in reverse order)
+        i > removedVariantIndex && propIsVariant;
       let handledRemovedValues = false;
       const definitionList = Array.isArray(prop) ? prop : [prop];
       let resolvedValues = definitionList.reduce(buildResolvedTypeValues(type), {});
@@ -10083,11 +10085,13 @@ function ReorderItemComponent({ children, style = {}, value, as = "li", onDrag, 
   const zIndex = useTransform([point2.x, point2.y], ([latestX, latestY]) => latestX || latestY ? 1 : "unset");
   invariant(Boolean(context), "Reorder.Item must be a child of Reorder.Group");
   const { axis, registerItem, updateOrder } = context;
-  return (0, import_jsx_runtime11.jsx)(Component3, { drag: axis, ...props, dragSnapToOrigin: true, style: { ...style, x: point2.x, y: point2.y, zIndex }, layout: layout2, onDrag: (event, gesturePoint) => {
-    const { velocity } = gesturePoint;
-    velocity[axis] && updateOrder(value, point2[axis].get(), velocity[axis]);
-    onDrag && onDrag(event, gesturePoint);
-  }, onLayoutMeasure: (measured) => registerItem(value, measured), ref: externalRef, ignoreStrict: true, children });
+  return (0, import_jsx_runtime11.jsx)(Component3, {
+    drag: axis, ...props, dragSnapToOrigin: true, style: { ...style, x: point2.x, y: point2.y, zIndex }, layout: layout2, onDrag: (event, gesturePoint) => {
+      const { velocity } = gesturePoint;
+      velocity[axis] && updateOrder(value, point2[axis].get(), velocity[axis]);
+      onDrag && onDrag(event, gesturePoint);
+    }, onLayoutMeasure: (measured) => registerItem(value, measured), ref: externalRef, ignoreStrict: true, children
+  });
 }
 var ReorderItem = (0, import_react47.forwardRef)(ReorderItemComponent);
 

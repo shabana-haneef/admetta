@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 import logo from "./assets/logo_white.png";
 
@@ -39,6 +39,13 @@ function useCountdown(deadline: Date) {
 
 const App = () => {
   const countdown = useCountdown(targetDate);
+  const shouldReduceMotion = useReducedMotion();
+
+  const transitionProps = (duration: number, delay = 0) => ({
+    duration: shouldReduceMotion ? 0 : duration,
+    delay: shouldReduceMotion ? 0 : delay,
+    ease: "easeOut"
+  });
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-surface text-white">
@@ -49,9 +56,9 @@ const App = () => {
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-[1400px] flex-col px-6 pb-16 pt-4 sm:px-10 lg:px-16">
         <motion.header
-          initial={{ opacity: 0, y: -18 }}
+          initial={{ opacity: 0, y: shouldReduceMotion ? 0 : -18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
+          transition={transitionProps(0.7)}
           className="mb-8 flex items-center justify-start px-2 py-2 sm:px-4"
         >
           <img
@@ -64,12 +71,12 @@ const App = () => {
         <main className="flex-1">
           <section className="relative flex min-h-[calc(100vh-140px)] flex-col items-center justify-center gap-10 py-10 text-center">
             <motion.div
-              initial={{ opacity: 0, y: 36 }}
+              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 36 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.1, ease: "easeOut" }}
+              transition={transitionProps(1, 0.1)}
               className="relative z-20 max-w-3xl"
             >
-              <p className="mb-5 text-sm uppercase tracking-[0.3em] text-white/50">
+              <p className="mb-8 text-sm uppercase tracking-[0.3em] text-white/50">
                 Creative Marketing Agency
               </p>
               <h1 className="mx-auto max-w-4xl text-4xl font-semibold leading-[1.05] text-white sm:text-5xl lg:text-6xl">
@@ -79,18 +86,18 @@ const App = () => {
                 </span>{" "}
                 Is Almost Here.
               </h1>
-              <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-white/70 sm:text-lg">
+              <p className="mx-auto mt-8 max-w-2xl text-base leading-8 text-white/70 sm:text-lg">
                 Bold campaigns. Strategic storytelling. Creative execution.
                 Admetta is preparing something exceptional.
               </p>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="grid w-full max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-4"
+              transition={transitionProps(0.8)}
+              className="grid w-full max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-4"
             >
               {[
                 { label: "Days", value: pad(countdown.days) },
@@ -100,10 +107,10 @@ const App = () => {
               ].map((item) => (
                 <motion.div
                   key={item.label}
-                  whileHover={{ y: -8, scale: 1.02 }}
+                  whileHover={shouldReduceMotion ? {} : { y: -8, scale: 1.02 }}
                   className="group rounded-3xl border border-white/10 bg-white/5 p-6 shadow-soft backdrop-blur-xl transition"
                 >
-                  <p className="mb-3 text-sm uppercase tracking-[0.28em] text-white/50">
+                  <p className="mb-4 text-sm uppercase tracking-[0.28em] text-white/50">
                     {item.label}
                   </p>
                   <span className="text-5xl font-semibold tracking-[-0.03em] text-white sm:text-6xl">
