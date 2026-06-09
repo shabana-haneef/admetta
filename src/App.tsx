@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import logo from "./assets/admettalogo.png";
+import logo from "./assets/logo_white.png";
 
 const targetDate = new Date();
 targetDate.setDate(targetDate.getDate() + 18);
